@@ -1,6 +1,7 @@
 package com.example.Dofus_Quest_Project.Model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -12,12 +13,9 @@ public class Succes {
     @GeneratedValue(strategy= GenerationType.TABLE)
     @Column(name = "idSucces")
     private long idSucces;
-    @Column(name = "name")
     private String name;
     @OneToMany
-    @Column(name = "questIn")
-    private Collection<Quest> questInThisSucces;
-    @Column(name = "nbPoint")
+    private Collection<Quest> questInThisSucces = new ArrayList<>();
     private int nbPoint;
 
     public Succes(){}

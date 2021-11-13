@@ -1,6 +1,6 @@
 package com.example.Dofus_Quest_Project;
 
-import com.example.Dofus_Quest_Project.Model.*;
+import com.example.Dofus_Quest_Project.Controller.*;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletProperties;
 import org.springframework.context.annotation.Configuration;
@@ -14,9 +14,9 @@ import javax.ws.rs.ApplicationPath;
 public class JerseyConfiguration extends ResourceConfig {
 
     public JerseyConfiguration() {
-        register(Quest.class);
-        register(Succes.class);
-        register(Player.class);
+        register(QuestController.class);
+        register(SuccesController.class);
+        register(PlayerController.class);
         register(CORSResponseFilter.class);
         property(ServletProperties.FILTER_FORWARD_ON_404, true);
 
