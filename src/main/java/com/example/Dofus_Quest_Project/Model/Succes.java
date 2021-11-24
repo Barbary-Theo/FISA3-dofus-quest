@@ -22,6 +22,11 @@ public class Succes implements Serializable {
 
     public Succes(){}
 
+    public Succes(String name, int nbPoint) {
+        this.name = name;
+        this.nbPoint = nbPoint;
+    }
+
     public long getIdSucces() {
         return idSucces;
     }

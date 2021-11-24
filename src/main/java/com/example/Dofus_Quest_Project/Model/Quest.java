@@ -14,6 +14,9 @@ public class Quest implements Serializable {
     @Column(name = "idQuest")
     private long idQuest;
 
+    @Column(name = "level")
+    private int level;
+
     @Column(name = "name")
     private String name;
 
@@ -29,6 +32,13 @@ public class Quest implements Serializable {
     private Succes succes;
 
     public Quest() {}
+
+    public Quest(int level, String name, String locateName, Succes succes) {
+        this.level = level;
+        this.name = name;
+        this.locationName = locateName;
+        this.succes = succes;
+    }
 
     public long getIdQuest() {
         return idQuest;
@@ -64,5 +74,13 @@ public class Quest implements Serializable {
 
     public void setSucces(Succes succes) {
         this.succes = succes;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }

@@ -11,7 +11,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
+import java.util.*;
 
 @Path("players")
 @Controller
@@ -19,6 +19,9 @@ public class PlayerController {
 
     @Autowired
     private PlayerRepository playerRepository;
+
+    @Autowired
+    private QuestController questController;
 
 
     /* ================== GET ================== */
@@ -66,28 +69,49 @@ public class PlayerController {
 
     /* ================== PATCH ================== */
 
+    @PATCH
+    @Produces(MediaType.APPLICATION_JSON)
+    public Player addQuest(@QueryParam("id") long id,
+                           Quest quest) {
+
+        Optional<Player> optionalPlayer = playerRepository.findById(id);
+        if(optionalPlayer.isPresent()) {
+
+            Player player = optionalPlayer.get();
+            player.addQuest(quest);
+            playerRepository.save(player);
+            return player;
+        }
+        else {
+            throw new IllegalArgumentException("Le joueur à l'id " + id + " n'existe pas");
+        }
+
+    }
 
 
     /* ================== PUT ================== */
 
-    /*
 
-    @PATCH
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("change")
-    public Player modifyElement(@QueryParam("id") int id, Player Player) {
-        Player.PlayerList.get(id).setPrenom(Player.getPrenom());
-        Player.PlayerList.get(id).setAge(Player.getAge());
-        return Player.PlayerList.get(id);
-    }
 
-    @PUT
+    /* ~~~~~~~~~~~~~~~~~ INIT METHOD ~~~~~~~~~~~~~~~~~ */
+
+    @POST
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("changeAll")
-    public Player modifyEverythings(@QueryParam("id") int id, Player Player) {
-        Player.PlayerList.set(id, Player);
-        return Player.PlayerList.get(id);
+    @Path("/initPlayer")
+    public Iterable<Player> initPlayer() {
+
+        ArrayList players = new ArrayList();
+
+        var quests = questController.getByLocation("Incarnam");
+        Set<Quest> questsForBidouche = new HashSet<>();
+        for(Quest quest : quests) {
+            questsForBidouche.add(quest);
+        }
+
+        players.add(new Player("Bidouche", questsForBidouche));
+        players.add(new Player("Alone :(", new HashSet<Quest>()));
+
+        return playerRepository.saveAll(players);
     }
-    */
 
 }

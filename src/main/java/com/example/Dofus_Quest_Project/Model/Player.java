@@ -24,6 +24,11 @@ public class Player implements Serializable {
 
     public Player(){}
 
+    public Player(String pseudo, Set<Quest> quests) {
+        this.pseudo = pseudo;
+        this.questDone = quests;
+    }
+
     public long getIdPlayer() {
         return idPlayer;
     }
@@ -46,5 +51,9 @@ public class Player implements Serializable {
 
     public void setQuestDone(Set<Quest> questDone) {
         this.questDone = questDone;
+    }
+
+    public void addQuest(Quest quest) {
+        questDone.add(quest);
     }
 }

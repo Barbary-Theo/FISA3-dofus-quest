@@ -17,6 +17,6 @@ public interface SuccesRepository extends CrudRepository<Succes, Long> {
     Iterable<Succes> findAll();
 
     @Query("SELECT theSucces FROM Succes as theSucces where theSucces.name=:name")
-    Iterable<Succes> findByName(String name);
+    Optional<Succes> findByName(String name);
 
 }
