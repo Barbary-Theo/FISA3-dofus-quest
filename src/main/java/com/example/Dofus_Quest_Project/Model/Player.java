@@ -1,32 +1,28 @@
 package com.example.Dofus_Quest_Project.Model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.io.Serializable;
+import java.util.*;
 
 @Entity
 @Table(name = "Player")
-public class Player {
+public class Player implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.TABLE)
     @Column(name = "idPlayer")
     private long idPlayer;
+
+    @Column(name = "pseudo")
     private String pseudo;
-    @OneToMany
-    private Collection<Quest> questDone = new ArrayList<>();
-    @OneToMany
-    private Collection<Succes> succesDone = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(name = "player_quest",
+        joinColumns = { @JoinColumn(name = "player_id_player")},
+        inverseJoinColumns = { @JoinColumn(name = "quest_id_quest")})
+    private Set<Quest> questDone = new HashSet<>();
 
     public Player(){}
-
-    public Player(long idPlayer, String pseudo, Collection<Quest> questDone, Collection<Succes> succesDone) {
-        this.idPlayer = idPlayer;
-        this.pseudo = pseudo;
-        this.questDone = questDone;
-        this.succesDone = succesDone;
-    }
 
     public long getIdPlayer() {
         return idPlayer;
@@ -44,19 +40,11 @@ public class Player {
         this.pseudo = pseudo;
     }
 
-    public Collection<Quest> getQuestDone() {
+    public Set<Quest> getQuestDone() {
         return questDone;
     }
 
-    public void setQuestDone(Collection<Quest> questDone) {
+    public void setQuestDone(Set<Quest> questDone) {
         this.questDone = questDone;
-    }
-
-    public Collection<Succes> getSuccesDone() {
-        return succesDone;
-    }
-
-    public void setSuccesDone(Collection<Succes> succesDone) {
-        this.succesDone = succesDone;
     }
 }

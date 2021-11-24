@@ -21,6 +21,8 @@ public class PlayerController {
     private PlayerRepository playerRepository;
 
 
+    /* ================== GET ================== */
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Player hello() {
@@ -42,6 +44,8 @@ public class PlayerController {
     }
 
 
+    /* ================== POST ================== */
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Player insert(Player player) {
@@ -49,12 +53,22 @@ public class PlayerController {
         return player;
     }
 
+
+    /* ================== DELETE ================== */
+
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     public String deleteById(@QueryParam("id") long id) {
         playerRepository.deleteById(id);
         return "deleted player with id " + id + " done.";
     }
+
+
+    /* ================== PATCH ================== */
+
+
+
+    /* ================== PUT ================== */
 
     /*
 

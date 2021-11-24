@@ -1,31 +1,26 @@
 package com.example.Dofus_Quest_Project.Model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "Succes")
-public class Succes {
+public class Succes implements Serializable {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "idSucces")
     private long idSucces;
+
+    @Column(name = "name")
     private String name;
-    @OneToMany
-    private Collection<Quest> questInThisSucces = new ArrayList<>();
+
+    @Column(name = "nbPoint")
     private int nbPoint;
 
     public Succes(){}
-
-    public Succes(long idSucces, String name, Collection<Quest> questInThisSucces, int nbPoint) {
-        this.idSucces = idSucces;
-        this.name = name;
-        this.questInThisSucces = questInThisSucces;
-        this.nbPoint = nbPoint;
-    }
 
     public long getIdSucces() {
         return idSucces;
@@ -43,13 +38,6 @@ public class Succes {
         this.name = name;
     }
 
-    public Collection<Quest> getQuestInThisSucces() {
-        return questInThisSucces;
-    }
-
-    public void setQuestInThisSucces(Collection<Quest> questInThisSucces) {
-        this.questInThisSucces = questInThisSucces;
-    }
 
     public int getNbPoint() {
         return nbPoint;
@@ -58,4 +46,6 @@ public class Succes {
     public void setNbPoint(int nbPoint) {
         this.nbPoint = nbPoint;
     }
+
+
 }

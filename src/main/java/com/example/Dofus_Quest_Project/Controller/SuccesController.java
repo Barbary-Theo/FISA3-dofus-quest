@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.Optional;
 
 @Path("succes")
 @Controller
@@ -20,9 +21,11 @@ public class SuccesController {
     @Autowired
     private SuccesRepository succesRepository;
 
+    /* ================== GET ================== */
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("Hello")
     public Succes hello() {
         return new Succes();
     }
@@ -35,6 +38,22 @@ public class SuccesController {
     }
 
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Optional<Succes> getById(@QueryParam("id") long id) {
+        return succesRepository.findById(id);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/name")
+    public Iterable<Succes> getByName(@QueryParam("name") String name) {
+        return succesRepository.findByName(name);
+    }
+
+
+    /* ================== POST ================== */
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Succes insert(Succes succes) {
@@ -42,11 +61,21 @@ public class SuccesController {
         return succes;
     }
 
+
+    /* ================== DELETE ================== */
+
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     public String deleteById(@QueryParam("id") long id) {
         succesRepository.deleteById(id);
         return "deleted succes with id " + id + " done.";
     }
+
+
+    /* ================== PATCH ================== */
+
+
+
+    /* ================== PUT ================== */
 
 }
