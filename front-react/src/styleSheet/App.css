@@ -1,0 +1,22 @@
+body {
+    background-image: url("../images/background.png");
+}
+
+.likeBody {
+    position: absolute;
+    border-radius: 4px;
+    margin: 5% 25%;
+    padding: 2%;
+    background-color: white;
+    text-align: center;
+    box-shadow: 1px 1px 12px #555;
+}
+
+
+.h1Login {
+    font-size: 20px !important;
+}
+
+.divLogin {
+    padding: 0.5%;
+}
