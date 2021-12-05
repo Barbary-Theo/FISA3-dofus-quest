@@ -1,22 +1,41 @@
+html { overflow-y: hidden; }
+
 body {
-    background-image: url("../images/background.png");
+    background-color: #F4F4F4;
+    font-family: Cocomat,sans-serif;
 }
 
-.likeBody {
-    position: absolute;
-    border-radius: 4px;
-    margin: 5% 25%;
-    padding: 2%;
-    background-color: white;
+.info {
     text-align: center;
-    box-shadow: 1px 1px 12px #555;
+    color: white;
+    padding: 5%;
 }
 
-
-.h1Login {
-    font-size: 20px !important;
+.images {
+    position: absolute;
 }
 
-.divLogin {
-    padding: 0.5%;
+.principalContent {
+    position: absolute;
+    background-color: #906E2D;
+    width: 100%;
+    bottom: 0;
+    height: 300px;
+    text-align: center;
+    color: white;
+    box-shadow: black 0px 4px 12px;
+}
+
+.principalContent:before {
+
+    box-shadow: black 0px 4px 12px;
+    content: '';
+    display: block;
+    position: absolute;
+    border-radius: 150% 80%;
+    width: 150%;
+    height: 1000%;
+    transform: translate(-50%, -21%);
+    background-color: #678E47;
+    z-index: -1;
 }
