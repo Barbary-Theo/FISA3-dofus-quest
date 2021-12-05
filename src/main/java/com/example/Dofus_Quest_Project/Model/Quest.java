@@ -23,6 +23,9 @@ public class Quest implements Serializable {
     @Column(name = "locationName")
     private String locationName;
 
+    @Column(name = "imageSrc")
+    private String imageSrc;
+
     @Column(name = "players")
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, mappedBy = "questDone")
     private Set<Player> players = new HashSet<>();
@@ -33,11 +36,12 @@ public class Quest implements Serializable {
 
     public Quest() {}
 
-    public Quest(int level, String name, String locateName, Succes succes) {
+    public Quest(int level, String name, String locateName, Succes succes, String imageSrc) {
         this.level = level;
         this.name = name;
         this.locationName = locateName;
         this.succes = succes;
+        this.imageSrc = imageSrc;
     }
 
     public long getIdQuest() {
@@ -82,5 +86,13 @@ public class Quest implements Serializable {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    public String getImageSrc() {
+        return imageSrc;
+    }
+
+    public void setImageSrc(String imageSrc) {
+        this.imageSrc = imageSrc;
     }
 }
