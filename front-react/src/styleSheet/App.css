@@ -1,21 +1,20 @@
-html { overflow-y: hidden; }
 
 body {
-    background-color: #F4F4F4;
+    background-color: #EBDBC6 !important;
     font-family: Cocomat,sans-serif;
 }
 
-.info {
+.infoLogin {
     text-align: center;
-    color: white;
+    color: #EBDBC6;
     padding: 5%;
 }
 
-.images {
+.imagesLogin {
     position: absolute;
 }
 
-.principalContent {
+.principalContentLogin {
     position: absolute;
     background-color: #906E2D;
     width: 100%;
@@ -26,7 +25,7 @@ body {
     box-shadow: black 0px 4px 12px;
 }
 
-.principalContent:before {
+.principalContentLogin:before {
 
     box-shadow: black 0px 4px 12px;
     content: '';
@@ -38,4 +37,41 @@ body {
     transform: translate(-50%, -21%);
     background-color: #678E47;
     z-index: -1;
+}
+
+.statuLogin {
+    text-align: center;
+    margin-top: 5%;
+}
+
+.divImage {
+    background-size:  cover !important;
+    overflow: hidden;
+    height: 210px;
+    width: 360px;
+}
+
+.locationName {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    background-color: #93866C;
+    color: #EBDBC6;
+    font-size: 16px;
+}
+
+.questCard {
+    padding: 10px;
+}
+
+.questCardContent {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius:4px;
+    background-color: #C9BF9D;
+}
+
+.questTitle {
+    border-top-right-radius: 4px;
+    background-color: #514A3C;
+    color: #EBDBC6;
+    font-size: 17px;
 }

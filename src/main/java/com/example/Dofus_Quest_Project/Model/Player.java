@@ -13,6 +13,9 @@ public class Player implements Serializable {
     @Column(name = "idPlayer")
     private long idPlayer;
 
+    @Column(name = "password")
+    private String password;
+
     @Column(name = "pseudo")
     private String pseudo;
 
@@ -24,8 +27,9 @@ public class Player implements Serializable {
 
     public Player(){}
 
-    public Player(String pseudo, Set<Quest> quests) {
+    public Player(String pseudo, String password, Set<Quest> quests) {
         this.pseudo = pseudo;
+        this.password = password;
         this.questDone = quests;
     }
 
@@ -55,5 +59,13 @@ public class Player implements Serializable {
 
     public void addQuest(Quest quest) {
         questDone.add(quest);
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

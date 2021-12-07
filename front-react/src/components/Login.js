@@ -1,35 +1,83 @@
-import GetAll from './model/Player';
-import data from "bootstrap/js/src/dom/data";
 import * as React from "react";
 
 const Login = () => {
 
-    const [searchCard, setSearchCard] = React.useState('');
-
-    const requestOptions = {
+    const getRequestOptions = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
     };
 
-    const [data, setData] = React.useState([{
+    const [pseudoConnexion, setPseudoConnexion] = React.useState('');
+    const [passwordConnexion, setPasswordConnexion] = React.useState('');
+
+    const [pseudoInscription, setPseudoInscription] = React.useState('');
+    const [passwordInscription, setPasswordInscription] = React.useState('');
+
+    const [players, setPlayers] = React.useState([{
+        idPlayer: 0,
         pseudo: "",
-        questDone: []
+        password: "",
+        quest: []
     }]);
 
 
     React.useEffect(() => {
-        fetch('http://localhost:8080/rest/players/all', requestOptions)
+        fetch('http://localhost:8080/rest/players/all', getRequestOptions)
             .then(response => response.json())
-            .then(data => setData(data));
+            .then(data => setPlayers(data));
     }, []);
+
+    function connexion(event) {
+        event.preventDefault()
+        players.map( (player) => {
+            if(player.pseudo === pseudoConnexion && player.password === passwordConnexion) {
+                localStorage.setItem("currentPlayer", player.idPlayer);
+                window.location.href = "/index";
+            }
+        })
+        document.getElementById('connexionStatu').innerText = 'Identifiants incorrect';
+    }
+
+    function inscription(event) {
+        event.preventDefault()
+        const playerToAdd = {
+            pseudoInscription,
+            passwordInscription,
+            questDone: []
+        }
+
+        let doesExist = false;
+        players.map( (player) => {
+            if(player.pseudo === pseudoInscription && player.password === passwordInscription) {
+                doesExist = true;
+            }
+        })
+
+        //Combo already exist
+        if (doesExist) {
+            console.log("oui");
+        }
+        else {
+            fetch('http://localhost:8080/rest/players',  {
+                    method: 'POST',
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(playerToAdd)
+                }
+            ).then(response => window.location.href = "/index");
+        }
+        console.log(doesExist);
+    }
 
     return (
 
         <div>
-            <div className="titleContent container-fluid">
+            <div className="titleContentLogin container-fluid">
                 <div className="row">
 
-                    <div className="info col-sm-5 offset-1">
+                    <div className="infoLogin col-sm-5 offset-1">
                         <img src="https://upload.wikimedia.org/wikipedia/fr/a/a3/Dofus_emeraude.png" alt="emerald img"
                             style={{width : '20%'}}/>
                         <h1> Bienvenu sur Dofus Quest </h1>
@@ -44,80 +92,84 @@ const Login = () => {
 
 
                     <div className="col-sm-4 offset-2">
-                        <img className="images" src="http://www.otakia.com/wp-content/uploads/2011/03/Logo-Dofus.png" alt="dofus img"
+                        <img className="imagesLogin" src="http://www.otakia.com/wp-content/uploads/2011/03/Logo-Dofus.png" alt="dofus img"
                              style={{width : '20%',  left: '60%'}}/>
-                        <img className="images" src="https://solomonk.fr/img/classes/SACRIEUR.png" alt="cra img"
+                        <img className="imagesLogin" src="https://solomonk.fr/img/classes/SACRIEUR.png" alt="cra img"
                              style={{ width: '20%', left: '75%', top: '18%'}}/>
-                        <img className="images" src="https://solomonk.fr/fr/img/wip.gif" alt="wabbit img"
+                        <img className="imagesLogin" src="https://solomonk.fr/fr/img/wip.gif" alt="wabbit img"
                              style={{ width: '20%', left: '50%', top: '27%'}}/>
                     </div>
 
                 </div>
             </div>
 
-            <div className="wave">
-
-            </div>
-
-            <div className="principalContent">
+            <div className="principalContentLogin">
 
                 <div className="container-fluid">
                     <div className="row">
 
-                        <div className="login col-sm-6" style={{borderRight: 'thick double white', height: '500px'}}>
+                        <div className="loginLogin col-sm-6" style={{borderRight: 'thick double white', height: '500px'}}>
 
                             <div className="container-fluid">
                                 <div className="row">
 
                                     <h1 style={{marginTop : "3%"}}> Se connecter </h1>
-
-                                    <div className="input-group mb-3 col-sm-8">
-                                        <div className="input-group-prepend">
-                                            <span className="input-group-text" id="basic-addon1">Pseudo</span>
+                                    <form onSubmit={connexion} method="get" className="form-example">
+                                        <div className="input-group mb-3 col-sm-8">
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text" id="basic-addon1">Pseudo</span>
+                                            </div>
+                                            <input type="text" required={true} className="form-control" placeholder="Pseudo" aria-label="Username"
+                                                   aria-describedby="basic-addon1" onChange={(e) => {
+                                                setPseudoConnexion(e.target.value);}}/>
                                         </div>
-                                        <input type="text" className="form-control" placeholder="Pseudo" aria-label="Username"
-                                               aria-describedby="basic-addon1"/>
-                                    </div>
 
-                                    <div className="input-group mb-3 col-sm-8">
-                                        <div className="input-group-prepend">
-                                            <span className="input-group-text" id="basic-addon1">Mot de passe</span>
+                                        <div className="input-group mb-3 col-sm-8">
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text" id="basic-addon1">Mot de passe</span>
+                                            </div>
+                                            <input type="password" required={true} className="form-control" placeholder="Mot de passe" aria-label="Username"
+                                                   aria-describedby="basic-addon1" onChange={(e) => {
+                                                setPasswordConnexion(e.target.value);}}/>
                                         </div>
-                                        <input type="password" className="form-control" placeholder="Mot de passe" aria-label="Username"
-                                               aria-describedby="basic-addon1"/>
-                                    </div>
 
 
-                                    <button type="button" className="btn btn-light col-sm-8 offset-2"> Se connecter</button>
+                                        <button type="submit" className="btn btn-light col-sm-8 offset-1"> Se connecter</button>
+                                    </form>
 
                                 </div>
                             </div>
+                            <p id='connexionStatu' className="statuLogin"> </p>
                         </div>
 
-                        <div className="signin col-sm-6">
+                        <div className="signinLogin col-sm-6">
 
                             <div className="container-fluid">
                                 <div className="row">
                                     <h1 style={{marginTop : "3%"}}> S'inscrire </h1>
-
-                                    <div className="input-group mb-3 col-sm-8">
-                                        <div className="input-group-prepend">
-                                            <span className="input-group-text" id="basic-addon1">Pseudo</span>
+                                    <form onSubmit={inscription} method="get" className="form-example">
+                                        <div className="input-group mb-3 col-sm-8">
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text" id="basic-addon1">Pseudo</span>
+                                            </div>
+                                            <input type="text" required={true} className="form-control" placeholder="Pseudo" aria-label="Username"
+                                                   aria-describedby="basic-addon1" onChange={(e) => {
+                                                setPseudoInscription(e.target.value);}}/>
                                         </div>
-                                        <input type="text" className="form-control" placeholder="Pseudo" aria-label="Username"
-                                               aria-describedby="basic-addon1"/>
-                                    </div>
 
-                                    <div className="input-group mb-3 col-sm-8">
-                                        <div className="input-group-prepend">
-                                            <span className="input-group-text" id="basic-addon1">Mot de passe</span>
+                                        <div className="input-group mb-3 col-sm-8">
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text" id="basic-addon1">Mot de passe</span>
+                                            </div>
+                                            <input type="password" required={true} className="form-control" placeholder="Mot de passe" aria-label="Username"
+                                                   aria-describedby="basic-addon1" onChange={(e) => {
+                                                setPasswordInscription(e.target.value);}}/>
                                         </div>
-                                        <input type="password" className="form-control" placeholder="Mot de passe" aria-label="Username"
-                                               aria-describedby="basic-addon1"/>
-                                    </div>
 
-                                    <button type="button" className="btn btn-light col-sm-8 offset-2"> S'inscrire</button>
+                                        <button type="submit" className="btn btn-light col-sm-8 offset-1"> S'inscrire</button>
+                                    </form>
 
+                                    <p id='inscriptionStatu' className="statuLogin"> </p>
                                 </div>
                             </div>
                         </div>
@@ -127,7 +179,6 @@ const Login = () => {
                 </div>
 
             </div>
-
 
         </div>
 

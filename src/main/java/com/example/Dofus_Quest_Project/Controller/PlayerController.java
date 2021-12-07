@@ -46,6 +46,23 @@ public class PlayerController {
         return playerRepository.findByPseudo(pseudo);
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/id")
+    public Optional<Player> getById(@QueryParam("id") long id) {
+        return playerRepository.findById(id);
+    }
+
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/quest")
+    public Set<Quest> getQuestByIdPlayer(@QueryParam("id") long id) {
+        Optional<Player> player = playerRepository.findById(id);
+        return player.map(Player::getQuestDone).orElse(null);
+    }
+
+
 
     /* ================== POST ================== */
 
@@ -108,8 +125,8 @@ public class PlayerController {
             questsForBidouche.add(quest);
         }
 
-        players.add(new Player("Bidouche", questsForBidouche));
-        players.add(new Player("Alone :(", new HashSet<Quest>()));
+        players.add(new Player("Bidouche", "admin", questsForBidouche));
+        players.add(new Player("Alone :(", "admin", new HashSet<Quest>()));
 
         return playerRepository.saveAll(players);
     }
