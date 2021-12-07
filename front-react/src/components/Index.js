@@ -64,7 +64,7 @@ const Index = () => {
             )
         }
         else {
-            return <div> Aucun </div>
+            return <div style={{textAlign : 'center', fontSize: '40px', marginTop: '7%'}}> Aucun </div>
         }
     }
 
