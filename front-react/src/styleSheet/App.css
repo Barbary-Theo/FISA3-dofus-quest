@@ -4,6 +4,19 @@ body {
     font-family: Cocomat,sans-serif;
 }
 
+.header {
+    color: #514A3C;
+    border-bottom: solid 1px #514A3C;
+    padding: 0px !important;
+}
+
+a {
+    text-align: center;
+    color: #514A3C !important;
+    margin-right: 100px !important;
+}
+
+
 .infoLogin {
     text-align: center;
     color: #EBDBC6;
@@ -74,4 +87,16 @@ body {
     background-color: #514A3C;
     color: #EBDBC6;
     font-size: 17px;
+}
+
+.classDecoration {
+    margin-top: 1%;
+    margin-bottom: 1%;
+    background-color: #93866C;
+}
+
+.presentation {
+    text-align: center;
+    margin-bottom: 5%;
+    margin-top: 5%;
 }
