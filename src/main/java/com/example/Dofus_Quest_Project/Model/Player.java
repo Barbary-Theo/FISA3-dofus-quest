@@ -64,6 +64,16 @@ public class Player implements Serializable {
         questDone.add(quest);
     }
 
+    public void removeQuest(Quest quest) {
+        Set<Quest> finalDone = new HashSet<>();
+
+        for(Quest quete : questDone){
+            if(quest.getIdQuest() != quete.getIdQuest()) finalDone.add(quete);
+        }
+
+        questDone = finalDone;
+    }
+
     public String getPassword() {
         return password;
     }

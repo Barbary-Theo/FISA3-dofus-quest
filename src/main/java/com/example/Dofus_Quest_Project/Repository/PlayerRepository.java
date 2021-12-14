@@ -1,12 +1,9 @@
 package com.example.Dofus_Quest_Project.Repository;
 
 import com.example.Dofus_Quest_Project.Model.Player;
-import com.example.Dofus_Quest_Project.Model.Quest;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Transactional
 public interface PlayerRepository extends CrudRepository<Player, Long> {

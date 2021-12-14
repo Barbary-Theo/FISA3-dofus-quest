@@ -1,15 +1,10 @@
 package com.example.Dofus_Quest_Project.Controller;
 
-
-import com.example.Dofus_Quest_Project.Model.Player;
-import com.example.Dofus_Quest_Project.Model.Quest;
 import com.example.Dofus_Quest_Project.Model.Succes;
-import com.example.Dofus_Quest_Project.Repository.QuestRepository;
 import com.example.Dofus_Quest_Project.Repository.SuccesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import javax.swing.text.html.Option;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;

@@ -1,7 +1,6 @@
 package com.example.Dofus_Quest_Project.Repository;
 
 import com.example.Dofus_Quest_Project.Model.Quest;
-import com.example.Dofus_Quest_Project.Model.Succes;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 

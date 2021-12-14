@@ -3,15 +3,8 @@ package com.example.Dofus_Quest_Project.Controller;
 import com.example.Dofus_Quest_Project.Model.*;
 import com.example.Dofus_Quest_Project.Repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.*;
@@ -118,6 +111,38 @@ public class PlayerController {
         }
 
 
+
+    }
+
+    @PATCH
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/rm")
+    public Set<Quest> removeQuest(@QueryParam("idP") long idP,
+                                  @QueryParam("idQ") long idQ) {
+
+
+        Optional<Quest> optionalQuest = questController.getById(idQ);
+
+        if(optionalQuest.isPresent()) {
+            Quest quest = optionalQuest.get();
+            Optional<Player> optionalPlayer = playerRepository.findById(idP);
+
+            if(optionalPlayer.isPresent()) {
+                Player player = optionalPlayer.get();
+
+                player.removeQuest(quest);
+                playerRepository.save(player);
+
+                return player.getQuestDone();
+            }
+            else {
+                throw new IllegalArgumentException("Le joueur à l'id " + idP + " n'existe pas");
+            }
+
+        }
+        else {
+            throw new IllegalArgumentException("La quête à l'id " + idQ + " n'existe pas");
+        }
 
     }
 
