@@ -6,6 +6,7 @@ import com.example.Dofus_Quest_Project.Repository.QuestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import javax.swing.text.html.Option;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
@@ -37,14 +38,22 @@ public class QuestController {
         return questRepository.findAll();
     }
 
-    @GET
+
+   @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/name")
     public Iterable<Quest> getByName(@QueryParam("name") String name) {
         return questRepository.findByName(name);
     }
 
-    @GET
+   @GET
+   @Produces(MediaType.APPLICATION_JSON)
+   @Path("/id")
+   public Optional<Quest> getById(@QueryParam("id") long id) {
+      return questRepository.findById(id);
+   }
+
+   @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/location")
     public Iterable<Quest> getByLocation(@QueryParam("location") String location) {

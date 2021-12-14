@@ -15,4 +15,5 @@ public interface PlayerRepository extends CrudRepository<Player, Long> {
     public Iterable<Player> findAll();
     public void delete(Player entity);
     public Iterable<Player> findByPseudo(String pseudo);
+
 }

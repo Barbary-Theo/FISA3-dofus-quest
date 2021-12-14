@@ -2,6 +2,11 @@ import * as React from "react";
 
 const Login = () => {
 
+    //On this page disable the scroll
+    window.onscroll = function () {
+        window.scrollTo(0,0);
+    }
+
     const getRequestOptions = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
@@ -28,7 +33,7 @@ const Login = () => {
     }, []);
 
     function connexion(event) {
-        event.preventDefault()
+        event.preventDefault();
         players.map( (player) => {
             if(player.pseudo === pseudoConnexion && player.password === passwordConnexion) {
                 localStorage.setItem("currentPlayer", player.idPlayer);
@@ -55,7 +60,7 @@ const Login = () => {
 
         //Combo already exist
         if (doesExist) {
-            console.log("oui");
+            document.getElementById('inscriptionStatu').innerText = 'Identifiants déjà existants';
         }
         else {
             fetch('http://localhost:8080/rest/players',  {
@@ -96,7 +101,7 @@ const Login = () => {
                              style={{width : '20%',  left: '60%'}}/>
                         <img className="imagesLogin" src="https://solomonk.fr/img/classes/SACRIEUR.png" alt="cra img"
                              style={{ width: '20%', left: '75%', top: '18%'}}/>
-                        <img className="imagesLogin" src="https://solomonk.fr/fr/img/wip.gif" alt="wabbit img"
+                        <img className="imagesLogin" src="https://solomonk.fr/fr/img/wip.gif" alt="bong img"
                              style={{ width: '20%', left: '50%', top: '27%'}}/>
                     </div>
 

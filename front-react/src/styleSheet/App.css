@@ -92,11 +92,16 @@ a {
 .classDecoration {
     margin-top: 1%;
     margin-bottom: 1%;
+    padding: 0.5%;
     background-color: #93866C;
 }
 
 .presentation {
     text-align: center;
     margin-bottom: 5%;
+    margin-top: 5%;
+}
+
+.tableAll {
     margin-top: 5%;
 }

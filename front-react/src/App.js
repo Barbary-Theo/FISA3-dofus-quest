@@ -5,6 +5,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom';
 
 import Login from './components/Login';
 import Index from './components/Index';
+import Quests from './components/Quests';
 
 function DEV() {
 
@@ -14,6 +15,7 @@ function DEV() {
           <Routes>
               <Route path="/" exact element={<Login />}/>
               <Route path="/index" exact element={<Index />}/>
+              <Route path="/all" exact element={<Quests />}/>
           </Routes>
       </BrowserRouter>
 

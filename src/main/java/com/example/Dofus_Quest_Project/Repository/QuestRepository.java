@@ -21,4 +21,8 @@ public interface QuestRepository extends CrudRepository<Quest, Long> {
 
     @Query("SELECT theQuest FROM Quest as theQuest where theQuest.locationName=:location")
     Iterable<Quest> findByLocation(String location);
+
+    @Query("SELECT theQuest FROM Quest as theQuest order by theQuest.locationName")
+    Iterable<Quest> findOrderByLocation();
+
 }

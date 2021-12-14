@@ -1,6 +1,7 @@
 import * as React from "react";
+import data from "bootstrap/js/src/dom/data";
 
-const Index = () => {
+const Quests = () => {
 
     const getRequestOptions = {
         method: 'GET',
@@ -8,19 +9,18 @@ const Index = () => {
     };
 
     React.useEffect(() => {
-        fetch('http://localhost:8080/rest/players/quest?id=' + localStorage.getItem("currentPlayer"), getRequestOptions)
+        fetch('http://localhost:8080/rest/quests/all', getRequestOptions)
             .then(response => response.json())
-            .then(data => setQuest(data));
+            .then(data => setQuests(data));
     }, []);
 
     React.useEffect(() => {
-        fetch('http://localhost:8080/rest/players/id?id=' + localStorage.getItem("currentPlayer"), getRequestOptions)
+        fetch('http://localhost:8080/rest/players/quest?id=' + localStorage.getItem("currentPlayer"), getRequestOptions)
             .then(response => response.json())
-            .then(data => setPlayer(data));
+            .then(data => setQuestsPlayer(data));
     }, []);
 
-
-    const [quests, setQuest] = React.useState([{
+    const [questsPlayer, setQuestsPlayer] = React.useState([{
         idQuest: 0,
         imageSrc: "",
         level: 0,
@@ -33,49 +33,79 @@ const Index = () => {
         }
     }]);
 
-    const [player, setPlayer] = React.useState([{
-        idPlayer: 0,
-        pseudo: "",
-        password: "",
-        questDone: []
+    const [quests, setQuests] = React.useState([{
+        idQuest: 0,
+        imageSrc: "",
+        level: 0,
+        locationName: "",
+        name: "",
+        succes: {
+            idSucces: 0,
+            name: "",
+            nbPoint: 0
+        }
     }]);
 
-    function displayQuests() {
-        if(quests.length >0) {
-            return quests.map((quest) =>
+    function addQuest(e){
+        e.preventDefault();
+        let idQuest = e.target.id;
 
-                <div className="row col-sm-4 offset-1 questCard">
-                    <div className="col-auto bg-solobrown rounded-left p-2 locationName">
-                        <p style={{writingMode: 'vertical-rl'}}>{quest.locationName}</p>
-                    </div>
-                    <div className="col bg-solobeige rounded-bottom-right questCardContent">
-                        <div className="row">
-                            <div className="questTitle col-12 rounded-top-right bg-solodarkbrown text-solobeige font-weight-bold pt-1 pb-1">
-                                <div className="container-fluid">
-                                    <div className="row">
-                                        <p className="col-sm-8"> {quest.name}</p><span className="col-sm-4" style={{textAlign: 'end'}}>Niv.{quest.level}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        fetch('http://localhost:8080/rest/quests/id?id=' + idQuest, getRequestOptions)
+            .then(response => response.json())
+            .then(data => {
 
-                        <div className="divImage">
-                            <img src={quest.imageSrc} alt={quest.name}/>
-                        </div>
+            const patchRequestOptions = {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            };
+            
+            fetch('http://localhost:8080/rest/players?id='+localStorage.getItem("currentPlayer"), patchRequestOptions)
+                .then(response => response.json())
+                .then(data => setQuests(data));}
 
-                    </div>
-                </div>
-            )
+    );
+
+    }
+
+    function checkInclude(quest) {
+        let include = false;
+
+        for(let i = 0 ; i < questsPlayer.length ; i++) {
+            if(quest.idQuest === questsPlayer[i].idQuest) {
+                include = true;
+                break;
+            }
+        }
+        return include;
+    }
+
+    function displayQuests(quest) {
+
+        if(!checkInclude(quest)) {
+           return(<tr>
+                <td className="border-0 text-center">
+                    <button type="button" id={quest.idQuest} className="btn btn-light" style={{width: "125%"}}
+                    onClick={addQuest}> Indiquer faite </button>
+                </td>
+                <td className="border-0 text-center"> {quest.name}</td>
+                <td className="border-0 text-center">{quest.locationName}</td>
+                <td className="border-0 text-center">{quest.succes.name}</td>
+            </tr>)
         }
         else {
-            return <div style={{textAlign : 'center', fontSize: '40px', marginTop: '7%'}}> Aucun </div>
+            return (<tr>
+                <td className="border-0 text-center"></td>
+                <td className="border-0 text-center"> {quest.name}</td>
+                <td className="border-0 text-center">{quest.locationName}</td>
+                <td className="border-0 text-center">{quest.succes.name}</td>
+            </tr>)
         }
+
     }
 
     return (
-
         <div>
-
             <nav className="navbar navbar-expand-lg header">
                 <a className="navbar-brand" href="/index"><img src="https://upload.wikimedia.org/wikipedia/fr/a/a3/Dofus_emeraude.png" alt="emerald img" style={{width : '35%'}}/></a>
                 <div>
@@ -113,26 +143,37 @@ const Index = () => {
                 </div>
             </div>
 
-            <div className="presentation">
-                <h1> Bonjour {player.pseudo}</h1>
 
-                <h4> Voici les quêtes quêtes réalisées sur ce personnage </h4>
-            </div>
-
-            <div className="container-fluid">
+            <div className="container-fluid tableAll">
                 <div className="row">
+                    <div className="col-sm-10 offset-1">
+                        <table className="table table-sm table-striped text-solodarkbrown">
+                            <thead>
+                                <tr>
+                                    <th scope="col" className="bg-solobrown border-0"></th>
+                                    <th scope="col" className="bg-solobrown border-0 text-center"> Nom </th>
+                                    <th scope="col" className="bg-solobrown border-0 text-center"> Lieu </th>
+                                    <th scope="col" className="bg-solobrown border-0 text-center"> Succès </th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                {
-                    displayQuests()
-                }
+                            {
+                                quests.map((quest) =>
+                                    displayQuests(quest)
+                                )
 
+                            }
+
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-
-
         </div>
-    )
+    );
 
 }
 
-export default Index;
+export default Quests;

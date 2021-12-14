@@ -3,8 +3,11 @@ package com.example.Dofus_Quest_Project.Controller;
 import com.example.Dofus_Quest_Project.Model.*;
 import com.example.Dofus_Quest_Project.Repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -61,8 +64,6 @@ public class PlayerController {
         Optional<Player> player = playerRepository.findById(id);
         return player.map(Player::getQuestDone).orElse(null);
     }
-
-
 
     /* ================== POST ================== */
 
