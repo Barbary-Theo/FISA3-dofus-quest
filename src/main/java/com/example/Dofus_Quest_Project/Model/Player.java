@@ -1,5 +1,7 @@
 package com.example.Dofus_Quest_Project.Model;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
@@ -19,7 +21,8 @@ public class Player implements Serializable {
     @Column(name = "pseudo")
     private String pseudo;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinTable(name = "player_quest",
         joinColumns = { @JoinColumn(name = "player_id_player")},
         inverseJoinColumns = { @JoinColumn(name = "quest_id_quest")})

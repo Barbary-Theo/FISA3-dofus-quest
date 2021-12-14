@@ -26,6 +26,9 @@ public class PlayerController {
     @Autowired
     private QuestController questController;
 
+    @Autowired
+    private SuccesController succesController;
+
 
     /* ================== GET ================== */
 
@@ -89,20 +92,32 @@ public class PlayerController {
 
     @PATCH
     @Produces(MediaType.APPLICATION_JSON)
-    public Player addQuest(@QueryParam("id") long id,
+    public Set<Quest> addQuest(@QueryParam("id") long id,
                            Quest quest) {
 
-        Optional<Player> optionalPlayer = playerRepository.findById(id);
-        if(optionalPlayer.isPresent()) {
+        //Get the quest's succes by its name
+        Optional<Succes> succes = succesController.getByName(quest.getSucces().getName());
 
-            Player player = optionalPlayer.get();
-            player.addQuest(quest);
-            playerRepository.save(player);
-            return player;
+        if(succes.isPresent()) {
+            quest.setSucces(succes.get());
+
+            Optional<Player> optionalPlayer = playerRepository.findById(id);
+            if(optionalPlayer.isPresent()) {
+
+                Player player = optionalPlayer.get();
+                player.addQuest(quest);
+                playerRepository.save(player);
+                return player.getQuestDone();
+            }
+            else {
+                throw new IllegalArgumentException("Le joueur à l'id " + id + " n'existe pas");
+            }
         }
         else {
-            throw new IllegalArgumentException("Le joueur à l'id " + id + " n'existe pas");
+            throw new IllegalArgumentException("Le succes au nom " + quest.getSucces().getName() + " n'existe pas");
         }
+
+
 
     }
 

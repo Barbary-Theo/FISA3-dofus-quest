@@ -1,5 +1,7 @@
 package com.example.Dofus_Quest_Project.Model;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -27,10 +29,12 @@ public class Quest implements Serializable {
     private String imageSrc;
 
     @Column(name = "players")
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, mappedBy = "questDone")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "questDone")
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private Set<Player> players = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "idSucces")
     private Succes succes;
 

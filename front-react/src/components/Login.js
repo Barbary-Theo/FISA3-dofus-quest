@@ -25,16 +25,22 @@ const Login = () => {
         quest: []
     }]);
 
-
+    //Get all players
     React.useEffect(() => {
         fetch('http://localhost:8080/rest/players/all', getRequestOptions)
             .then(response => response.json())
             .then(data => setPlayers(data));
     }, []);
 
+
+    //Function to do when user clicked on the login button
     function connexion(event) {
         event.preventDefault();
+
+        //For all players
         players.map( (player) => {
+
+            //If it is the one who try to connect his-self
             if(player.pseudo === pseudoConnexion && player.password === passwordConnexion) {
                 localStorage.setItem("currentPlayer", player.idPlayer);
                 window.location.href = "/index";
@@ -43,6 +49,7 @@ const Login = () => {
         document.getElementById('connexionStatu').innerText = 'Identifiants incorrect';
     }
 
+    //Function to do when user clicked on the sign-in button
     function inscription(event) {
         event.preventDefault()
         const playerToAdd = {
@@ -53,6 +60,8 @@ const Login = () => {
 
         let doesExist = false;
         players.map( (player) => {
+
+            //Verify identifiants doesn't already exist
             if(player.pseudo === pseudoInscription && player.password === passwordInscription) {
                 doesExist = true;
             }
@@ -63,6 +72,7 @@ const Login = () => {
             document.getElementById('inscriptionStatu').innerText = 'Identifiants déjà existants';
         }
         else {
+            //Add the new user to the database
             fetch('http://localhost:8080/rest/players',  {
                     method: 'POST',
                     headers: {
@@ -73,7 +83,7 @@ const Login = () => {
                 }
             ).then(response => window.location.href = "/index");
         }
-        console.log(doesExist);
+
     }
 
     return (
