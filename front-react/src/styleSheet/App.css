@@ -109,3 +109,19 @@ a {
 .succesElement {
     text-align: center;
 }
+
+.buttonDone {
+    background-color: #95BD9C !important;
+}
+
+.buttonNotDone {
+    background-color: #EEB260 !important;
+}
+
+.dofus :hover {
+    transform: scale(1.1);
+}
+
+.tete :hover {
+    transform: scale(1.2);
+}

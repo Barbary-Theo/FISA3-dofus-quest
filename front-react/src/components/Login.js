@@ -53,8 +53,8 @@ const Login = () => {
     function inscription(event) {
         event.preventDefault()
         const playerToAdd = {
-            pseudoInscription,
-            passwordInscription,
+            pseudo: pseudoInscription,
+            password: passwordInscription,
             questDone: []
         }
 
@@ -62,7 +62,7 @@ const Login = () => {
         players.map( (player) => {
 
             //Verify identifiants doesn't already exist
-            if(player.pseudo === pseudoInscription && player.password === passwordInscription) {
+            if(player.pseudo === playerToAdd.pseudo && player.password === playerToAdd.password) {
                 doesExist = true;
             }
         })
@@ -72,6 +72,7 @@ const Login = () => {
             document.getElementById('inscriptionStatu').innerText = 'Identifiants déjà existants';
         }
         else {
+            console.log(playerToAdd);
             //Add the new user to the database
             fetch('http://localhost:8080/rest/players',  {
                     method: 'POST',
@@ -81,7 +82,13 @@ const Login = () => {
                     },
                     body: JSON.stringify(playerToAdd)
                 }
-            ).then(response => window.location.href = "/index");
+            ).then(response => response.json())
+            .then(data =>
+                {
+                    console.log(data);
+                    localStorage.setItem("currentPlayer", data.idPlayer);
+                    window.location.href = "/index";
+                });
         }
 
     }

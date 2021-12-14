@@ -1,5 +1,5 @@
 import * as React from "react";
-import Header from "./Header";
+import Header from "./minorComponents/Header";
 
 const Index = () => {
 
