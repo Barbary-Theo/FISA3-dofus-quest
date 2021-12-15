@@ -8,6 +8,9 @@ const Index = () => {
         headers: { 'Content-Type': 'application/json' },
     };
 
+
+    const [searchQuest, setSearchQuest] = React.useState('');
+
     //Get user's quests connected at this moment
     React.useEffect(() => {
         fetch('http://localhost:8080/rest/players/quest?id=' + localStorage.getItem("currentPlayer"), getRequestOptions)
@@ -48,7 +51,13 @@ const Index = () => {
     function displayQuests() {
         if(quests.length >0) {
             //For all quests already done, display them into a card
-            return quests.map((quest) =>
+            return quests.filter(item => {
+                if (item.name.toLowerCase().includes(searchQuest.toLowerCase()) ||
+                    item.locationName.toLowerCase().includes(searchQuest.toLowerCase()) ||
+                    item.level.toString().includes(searchQuest)) {
+                    return item;
+                }
+            }).map((quest) =>
 
                 <div className="row col-sm-4 offset-1 questCard">
                     <div className="col-auto bg-solobrown rounded-left p-2 locationName">
@@ -88,6 +97,13 @@ const Index = () => {
                 <h1> Bonjour {player.pseudo}</h1>
 
                 <h4> Voici les quêtes quêtes réalisées sur ce personnage </h4>
+            </div>
+
+            <div className="input-group rounded searchPart" style={{marginBottom: "2%"}}>
+                <input type="search" className="form-control rounded" placeholder="Rechercher" aria-label="Search"
+                       aria-describedby="search-addon" onChange={event => {
+                    setSearchQuest(event.target.value)
+                }} required/>
             </div>
 
             <div className="container-fluid">

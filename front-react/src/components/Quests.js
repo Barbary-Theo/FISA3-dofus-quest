@@ -8,6 +8,8 @@ const Quests = () => {
         headers: { 'Content-Type': 'application/json' },
     };
 
+    const [searchQuest, setSearchQuest] = React.useState('');
+
     React.useEffect(() => {
         fetch('http://localhost:8080/rest/quests/all', getRequestOptions)
             .then(response => response.json())
@@ -136,23 +138,33 @@ const Quests = () => {
         //If it is not include in the player's quests
         if(!checkInclude(quest)) {
            return(<tr>
-                <td className="border-0 text-center">
-                    <button type="button" id={quest.idQuest} className="btn btn-light buttonDone" style={{width: "125%"}}
-                    onClick={addQuest}> Indiquer faite </button>
-                </td>
-                <td className="border-0 text-center"> {quest.name}</td>
-                <td className="border-0 text-center">{quest.locationName}</td>
-                <td className="border-0 text-center">{quest.succes.name}</td>
+               <div className="container-fluid">
+               <div className="row">
+                    <td className="border-0 text-center col-sm-2">
+                        <button type="button" id={quest.idQuest} className="btn btn-light buttonDone" style={{width: "125%"}}
+                        onClick={addQuest}> Indiquer faite </button>
+                    </td>
+                    <td className="border-0 text-center col-sm-4"> {quest.name}</td>
+                    <td className="border-0 text-center col-sm-2">{quest.locationName}</td>
+                   <td className="border-0 text-center col-sm-1">{quest.level}</td>
+                    <td className="border-0 text-center col-sm-3">{quest.succes.name}</td>
+               </div>
+               </div>
             </tr>)
         }
         else {
             return (<tr>
-                <td className="border-0 text-center">
-                    <button type="button" id={quest.idQuest} className="btn btn-light buttonNotDone" style={{width: "125%"}}
-                     onClick={removeQuest}> Annuler </button></td>
-                <td className="border-0 text-center"> {quest.name}</td>
-                <td className="border-0 text-center">{quest.locationName}</td>
-                <td className="border-0 text-center">{quest.succes.name}</td>
+                <div className="container-fluid">
+                <div className="row">
+                    <td className="border-0 text-center col-sm-2">
+                        <button type="button" id={quest.idQuest} className="btn btn-light buttonNotDone" style={{width: "125%"}}
+                         onClick={removeQuest}> Annuler </button></td>
+                    <td className="border-0 text-center col-sm-4"> {quest.name}</td>
+                    <td className="border-0 text-center col-sm-2">{quest.locationName}</td>
+                    <td className="border-0 text-center col-sm-1">{quest.level}</td>
+                    <td className="border-0 text-center col-sm-3">{quest.succes.name}</td>
+                </div>
+                </div>
             </tr>)
         }
 
@@ -164,22 +176,43 @@ const Quests = () => {
         <div>
             <Header />
 
+            <div className="input-group rounded searchPart">
+                <input type="search" className="form-control rounded" placeholder="Rechercher" aria-label="Search"
+                       aria-describedby="search-addon" onChange={event => {
+                    setSearchQuest(event.target.value)
+                }} required/>
+            </div>
+
+
             <div className="container-fluid tableAll">
                 <div className="row">
                     <div className="col-sm-10 offset-1">
                         <table className="table table-sm table-striped text-solodarkbrown">
                             <thead>
                                 <tr>
-                                    <th scope="col" className="bg-solobrown border-0"></th>
-                                    <th scope="col" className="bg-solobrown border-0 text-center"> Nom </th>
-                                    <th scope="col" className="bg-solobrown border-0 text-center"> Lieu </th>
-                                    <th scope="col" className="bg-solobrown border-0 text-center"> Succès </th>
+                                    <div className="container-fluid">
+                                    <div className="row">
+                                        <th scope="col" className="bg-solobrown border-0 text-center col-sm-2"></th>
+                                        <th scope="col" className="bg-solobrown border-0 text-center col-sm-4" > Nom </th>
+                                        <th scope="col" className="bg-solobrown border-0 text-center col-sm-2"> Lieu </th>
+                                        <th scope="col" className="bg-solobrown border-0 text-center col-sm-1"> Niveau </th>
+                                        <th scope="col" className="bg-solobrown border-0 text-center col-sm-3"> Succès </th>
+                                    </div>
+                                    </div>
                                 </tr>
                             </thead>
                             <tbody>
 
                             {
-                                quests.map((quest) =>
+                                quests.filter(item => {
+                                    if (item.name.toLowerCase().includes(searchQuest.toLowerCase()) ||
+                                        item.locationName.toLowerCase().includes(searchQuest.toLowerCase()) ||
+                                        item.succes.name.toLowerCase().includes(searchQuest.toLowerCase()) ||
+                                        item.level.toString().includes(searchQuest)) {
+                                        return item;
+                                    }
+                                })
+                                    .map((quest) =>
                                     displayQuests(quest)
                                 )
 

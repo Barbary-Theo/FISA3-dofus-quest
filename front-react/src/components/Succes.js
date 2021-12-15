@@ -8,6 +8,8 @@ const Succes = () => {
         headers: { 'Content-Type': 'application/json' },
     };
 
+    const [searchSucces, setSearchSucces] = React.useState('');
+
     //Get user's quests connected at this moment
     React.useEffect(() => {
         fetch('http://localhost:8080/rest/succes/all', getRequestOptions)
@@ -29,6 +31,13 @@ const Succes = () => {
 
             <Header />
 
+            <div className="input-group rounded searchPart">
+                <input type="search" className="form-control rounded" placeholder="Rechercher" aria-label="Search"
+                       aria-describedby="search-addon" onChange={event => {
+                    setSearchSucces(event.target.value)
+                }} required/>
+            </div>
+
             <div className="container-fluid succesElement">
                 <div className="row">
                     <div className="col-sm-10 offset-1">
@@ -42,7 +51,12 @@ const Succes = () => {
                             <tbody>
 
                             {
-                                succes.map((succe) =>
+                                succes.filter(item => {
+                                    if (item.name.toLowerCase().includes(searchSucces.toLowerCase()) ||
+                                        item.nbPoint.toString().includes(searchSucces)) {
+                                        return item;
+                                    }
+                                }).map((succe) =>
                                     <tr >
                                         <td> {succe.name}</td>
                                         <td> {succe.nbPoint} </td>
