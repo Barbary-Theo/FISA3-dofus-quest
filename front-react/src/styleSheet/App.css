@@ -16,6 +16,15 @@ a {
     margin-right: 100px !important;
 }
 
+.initButton {
+    position: absolute;
+    top: 2%;
+    left: 2%;
+}
+
+.btnInit {
+    background-color: #906E2D !important;
+}
 
 .infoLogin {
     text-align: center;

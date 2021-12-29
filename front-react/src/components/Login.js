@@ -12,6 +12,14 @@ const Login = () => {
         headers: { 'Content-Type': 'application/json' },
     };
 
+    const postRequestOptions = {
+        method: 'POST',
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        }
+    }
+
     const [pseudoConnexion, setPseudoConnexion] = React.useState('');
     const [passwordConnexion, setPasswordConnexion] = React.useState('');
 
@@ -29,9 +37,39 @@ const Login = () => {
     React.useEffect(() => {
         fetch('http://localhost:8080/rest/players/all', getRequestOptions)
             .then(response => response.json())
-            .then(data => setPlayers(data));
+            .then(data => {
+                setPlayers(data);
+                if(players.length > 0) document.getElementById("btnInit").disabled = true;
+            });
     }, []);
 
+
+    //Function to init database with the button
+    function initDataBase() {
+        console.log(players.length)
+        //If dataBase is already initialized
+        if(players.length <= 0) {
+
+            fetch('http://localhost:8080/rest/succes/initSucces', postRequestOptions)
+            .then(response => response.json())
+            .then(data => {
+
+                fetch('http://localhost:8080/rest/quests/initQuest',postRequestOptions)
+                    .then(response => response.json())
+                    .then(data =>  {
+
+                        fetch('http://localhost:8080/rest/players/initPlayer', postRequestOptions)
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log("data insert successfully");
+                            document.getElementById("btnInit").disabled = true;
+                        });
+                    });
+            });
+        }
+
+
+    }
 
     //Function to do when user clicked on the login button
     function connexion(event) {
@@ -200,6 +238,10 @@ const Login = () => {
                     </div>
                 </div>
 
+            </div>
+
+            <div className="initButton">
+                <button id="btnInit" type="button" className="btn btn-success btnInit" onClick={initDataBase}> Initialiser </button>
             </div>
 
         </div>
