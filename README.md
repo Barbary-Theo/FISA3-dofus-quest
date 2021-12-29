@@ -12,9 +12,13 @@ Veuillez suivre les étapes pour pouvoir lancer l'application tranquillement �
         2. ouvrir un terminal dans le dossier lib du dossier hsql de base
         3. lancer la commande : java -cp hsqldb.jar org.hsqldb.server.Server --database.0 file:mydb --dbname.0 firstBDD
 
+
+
 2. ## L'API Spring
     
     Simplement executer le fichier DofusQuestProjectApplication dans le dossier src/main/java/com.example.Dofus_Quest_Project 😉
+
+
 
 3. ## L'application React
 
@@ -25,6 +29,8 @@ Veuillez suivre les étapes pour pouvoir lancer l'application tranquillement �
         3. ouvrir un navigateur et indiquer dans l'URL 'localhost:3000' pour être rediriger vers l'applicaiton
 
 ---
+
+
 
 ## Quelques petites infos 
 
