@@ -96,7 +96,7 @@ const Index = () => {
             <div className="presentation">
                 <h1> Bonjour {player.pseudo}</h1>
 
-                <h4> Voici les quêtes quêtes réalisées sur ce personnage </h4>
+                <h4> Voici les quêtes réalisées sur ce personnage </h4>
             </div>
 
             <div className="input-group rounded searchPart" style={{marginBottom: "2%"}}>

@@ -14,10 +14,8 @@ const Login = () => {
 
     const postRequestOptions = {
         method: 'POST',
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        }
+        mode: 'cors',
+        headers: { 'Content-Type': 'application/json' }
     }
 
     const [pseudoConnexion, setPseudoConnexion] = React.useState('');
@@ -26,48 +24,48 @@ const Login = () => {
     const [pseudoInscription, setPseudoInscription] = React.useState('');
     const [passwordInscription, setPasswordInscription] = React.useState('');
 
-    const [players, setPlayers] = React.useState([{
-        idPlayer: 0,
-        pseudo: "",
-        password: "",
-        quest: []
-    }]);
+    const [players, setPlayers] = React.useState('');
 
     //Get all players
     React.useEffect(() => {
+        getAllPlayers();
+    }, []);
+
+    function getAllPlayers() {
         fetch('http://localhost:8080/rest/players/all', getRequestOptions)
             .then(response => response.json())
             .then(data => {
                 setPlayers(data);
-                if(players.length > 0) document.getElementById("btnInit").disabled = true;
+
+                //If database not yet init
+                if(data.length <= 0) {
+                    initDataBase();
+                }
+
+
             });
-    }, []);
+    }
 
-
-    //Function to init database with the button
+    //Function to init database at the first connexion to the page
     function initDataBase() {
-        console.log(players.length)
-        //If dataBase is already initialized
-        if(players.length <= 0) {
 
-            fetch('http://localhost:8080/rest/succes/initSucces', postRequestOptions)
-            .then(response => response.json())
-            .then(data => {
+        // insert success, quests and players
+        fetch('http://localhost:8080/rest/succes/initSucces', postRequestOptions)
+        .then(response => response.json())
+        .then(data => {
 
-                fetch('http://localhost:8080/rest/quests/initQuest',postRequestOptions)
+            fetch('http://localhost:8080/rest/quests/initQuest',postRequestOptions)
+                .then(response => response.json())
+                .then(data =>  {
+
+                    fetch('http://localhost:8080/rest/players/initPlayer', postRequestOptions)
                     .then(response => response.json())
-                    .then(data =>  {
-
-                        fetch('http://localhost:8080/rest/players/initPlayer', postRequestOptions)
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log("data insert successfully");
-                            document.getElementById("btnInit").disabled = true;
-                        });
+                    .then(data => {
+                        //Set players
+                        getAllPlayers();
                     });
-            });
-        }
-
+                });
+        });
 
     }
 
@@ -140,7 +138,7 @@ const Login = () => {
                     <div className="infoLogin col-sm-5 offset-1">
                         <img src="https://upload.wikimedia.org/wikipedia/fr/a/a3/Dofus_emeraude.png" alt="emerald img"
                             style={{width : '20%'}}/>
-                        <h1> Bienvenu sur Dofus Quest </h1>
+                        <h1> Bienvenue sur Dofus Quest </h1>
                         <h2> Organisation, Facilité, Fiabilité </h2>
                         <p> Ce site vous offrira la possibilité d'avoir un suivis sur vos quêtes. <br/>
                             Vous avez simplement à vous connecter sur votre personnage, pour avoir accès à votre gestionnaire. <br/>
@@ -238,10 +236,6 @@ const Login = () => {
                     </div>
                 </div>
 
-            </div>
-
-            <div className="initButton">
-                <button id="btnInit" type="button" className="btn btn-success btnInit" onClick={initDataBase}> Initialiser </button>
             </div>
 
         </div>
