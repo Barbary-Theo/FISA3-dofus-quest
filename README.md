@@ -2,9 +2,7 @@
 
 Veuillez suivre les étapes pour pouvoir lancer l'application tranquillement 😄
 
-1. 
-
-    ## Base de données : 
+1.  ## Base de données : 
 
     La base de données se nomme : firstBDD
 
